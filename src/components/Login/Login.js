@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -7,13 +7,17 @@ import Button from '../UI/Button/Button';
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [emailIsValid, setEmailIsValid] = useState();
-  const [enteredCollege,setEnteredCollege]=useState('')
-  const [collegeIsValid,setCollegeIsValid]=useState()
   const [enteredPassword, setEnteredPassword] = useState('');
   const [passwordIsValid, setPasswordIsValid] = useState();
+  const [enteredCollege, setEnteredCollege] = useState('')
+  const [collegeIsValid, setCollegeIsValid] = useState()
   const [formIsValid, setFormIsValid] = useState(false);
 
-
+  useEffect(() => {
+    setFormIsValid(
+      enteredPassword.trim().length > 6 && enteredEmail.includes('@') && enteredCollege.trim().length > 0
+    );
+  }, [enteredPassword, enteredCollege, enteredEmail])
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
 
@@ -25,11 +29,11 @@ const Login = (props) => {
   const passwordChangeHandler = (event) => {
     setEnteredPassword(event.target.value);
 
-  
+
   };
-  const collegeChangeHandler=(event)=>{
-  setEnteredCollege(event.target.value)
-  } 
+  const collegeChangeHandler = (event) => {
+    setEnteredCollege(event.target.value)
+  }
 
   const validateEmailHandler = () => {
     setEmailIsValid(enteredEmail.includes('@'));
@@ -38,8 +42,8 @@ const Login = (props) => {
   const validatePasswordHandler = () => {
     setPasswordIsValid(enteredPassword.trim().length > 6);
   };
-  const validateCollegeHandler=()=>{
-    setCollegeIsValid(enteredCollege.trim().length>0)
+  const validateCollegeHandler = () => {
+    setCollegeIsValid(enteredCollege.trim().length > 0)
   }
 
   const submitHandler = (event) => {
@@ -47,18 +51,13 @@ const Login = (props) => {
     props.onLogin(enteredEmail, enteredPassword);
   };
 
-  useEffect(()=>{
-    setFormIsValid(
-      enteredPassword.trim().length > 6 && enteredEmail.includes('@') && enteredCollege.trim().length>0
-    );
-  },[enteredPassword,enteredCollege,enteredEmail])
+
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <div
-          className={`${classes.control} ${
-            emailIsValid === false ? classes.invalid : ''
-          }`}
+          className={`${classes.control} ${emailIsValid === false ? classes.invalid : ''
+            }`}
         >
           <label htmlFor="email">E-Mail</label>
           <input
@@ -70,9 +69,8 @@ const Login = (props) => {
           />
         </div>
         <div
-          className={`${classes.control} ${
-            passwordIsValid === false ? classes.invalid : ''
-          }`}
+          className={`${classes.control} ${passwordIsValid === false ? classes.invalid : ''
+            }`}
         >
           <label htmlFor="password">Password</label>
           <input
@@ -84,9 +82,8 @@ const Login = (props) => {
           />
         </div>
         <div
-          className={`${classes.control} ${
-            passwordIsValid === false ? classes.invalid : ''
-          }`}
+          className={`${classes.control} ${passwordIsValid === false ? classes.invalid : ''
+            }`}
         >
           <label htmlFor="colleg">College Name</label>
           <input
